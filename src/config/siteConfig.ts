@@ -58,7 +58,7 @@ export const siteConfig: SiteConfig = withUserConfig("site", {
 		// 数组顺序就是轮播顺序；只需要静态 Banner 时，每组保留一张图片即可。
 		src: {
 			desktop: ["assets/images/banner/desktop/shouanren-yxpyrx.jpg"],
-			mobile: ["assets/images/banner/mobile/shouanren-yxpyrx.jpg"],
+			mobile: ["assets/images/banner/mobile/shouanren-yxpyrx-2.jpg"],
 		},
 		// 图片裁切焦点："top"、"center" 或 "bottom"。
 		position: "center",
