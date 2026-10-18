@@ -5,6 +5,7 @@ import ConfigCarrier from "@components/system/ConfigCarrier.astro";
 import UmamiRuntime from "@components/system/UmamiRuntime.astro";
 import { resolveAsset } from "@utils/asset-utils";
 import { pathsEqual, toAbsoluteUrl, url } from "@utils/url-utils";
+import Analytics from "@vercel/analytics/astro";
 import {
 	expressiveCodeConfig,
 	profileConfig,
@@ -125,6 +126,7 @@ const hasMonoFont =
 		<meta charset="UTF-8" />
 		<meta name="description" content={description || pageTitle}>
 		<meta name="author" content={profileConfig.name}>
+		<Analytics />
 
 		<meta property="og:site_name" content={siteConfig.title}>
 		<meta property="og:url" content={canonicalUrl}>
