@@ -58,6 +58,7 @@ export const DEFAULT_MOUNTS = Object.freeze({
 export const PROTECTED_PATHS = Object.freeze([
 	"public/assets/anime/covers/**",
 	"public/assets/moments/thumbnails/**",
+	"public/assets/music/url/**",
 	"src/assets/fonts/.subset/**",
 ]);
 
