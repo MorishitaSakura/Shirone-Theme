@@ -45,4 +45,11 @@ export const musicTracks: readonly TrackDescriptor[] = [
 		source: "/assets/music/url/cl.mp3",
 		duration: 242,
 	},
+	{
+		id: "cherry-candy",
+		title: "Cherry Candy",
+		artist: "Lunak",
+		source: "/assets/music/url/cherry-candy.mp3",
+		duration: 141,
+	},
 ];
