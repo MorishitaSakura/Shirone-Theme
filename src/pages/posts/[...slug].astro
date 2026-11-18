@@ -194,10 +194,24 @@ const ogImage = entry.data.image
 	: undefined;
 
 const canonicalPostUrl = getPostUrl(entry);
+const absoluteCanonicalPostUrl = new URL(
+	canonicalPostUrl,
+	Astro.site ?? Astro.url,
+).href;
+const absoluteStructuredImage = ogImage
+	? new URL(ogImage, Astro.site ?? Astro.url).href
+	: undefined;
 
 const jsonLd = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
+	"@id": absoluteCanonicalPostUrl,
+	url: absoluteCanonicalPostUrl,
+	mainEntityOfPage: {
+		"@type": "WebPage",
+		"@id": absoluteCanonicalPostUrl,
+	},
+	image: absoluteStructuredImage ? [absoluteStructuredImage] : undefined,
 	headline: entry.data.title,
 	description: effectiveDescription,
 	keywords: entry.data.tags,
@@ -248,7 +262,7 @@ const jsonLd = {
 
 			<!-- title -->
 			<div class="relative onload-animation">
-				<div
+				<h1
 					data-pagefind-body data-pagefind-weight="10" data-pagefind-meta="title"
 					class="transition w-full block font-bold mb-3
 					text-3xl md:text-[2.25rem]/[2.75rem]
@@ -256,9 +270,9 @@ const jsonLd = {
 					flex items-center gap-3"
 				>
 					<AccentBar size="large" />
-					<div class="inline-block">
+					<span class="inline-block">
 						{entry.data.title}
-					</div>
+					</span>
 					<IconButton
 						id="copy-post-link"
 						label={i18n(I18nKey.copyLink)}
@@ -266,7 +280,7 @@ const jsonLd = {
 					>
 						<Icon name="material-symbols:link-rounded" class="text-[1.25rem]" />
 					</IconButton>
-				</div>
+				</h1>
 			</div>
 
 			<!-- metadata -->
@@ -299,6 +313,7 @@ const jsonLd = {
 				<ImageWrapper
 					id="post-cover"
 					src={entry.data.image}
+					alt={entry.data.title}
 					basePath={imageBasePath}
 					class="mb-8 rounded-xl banner-container onload-animation"
 					loading="eager"

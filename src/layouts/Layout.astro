@@ -54,8 +54,8 @@ const initialPage =
 // build constructor before the `astro:config:setup` hook runs. Derive the
 // absolute URL from `Astro.site` ourselves so og/twitter URLs stay correct.
 const canonicalUrl = Astro.site
-	? new URL(Astro.url.pathname + Astro.url.search, Astro.site)
-	: Astro.url;
+	? new URL(Astro.url.pathname, Astro.site)
+	: new URL(Astro.url.pathname, Astro.url.origin);
 function getFirstBannerImage(source: BannerSourceValue | undefined): string {
 	if (!source) return "";
 	if (Array.isArray(source)) return source[0] || "";
@@ -98,6 +98,12 @@ if (title) {
 	pageTitle = `${siteConfig.title} - ${siteConfig.subtitle}`;
 }
 
+const metaDescription =
+	description ||
+	(initialPage === "home"
+		? "桜之潮（sakurashio）是一个记录生活、城市旅行、动漫文化与技术探索的个人博客，分享日常随笔、作品推荐、开源观察与摄影记录。"
+		: pageTitle);
+
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
 
@@ -123,13 +129,14 @@ const hasMonoFont =
 		<title>{pageTitle}</title>
 
 		<meta charset="UTF-8" />
-		<meta name="description" content={description || pageTitle}>
+		<meta name="description" content={metaDescription}>
+		<link rel="canonical" href={canonicalUrl} />
 		<meta name="author" content={profileConfig.name}>
 
 		<meta property="og:site_name" content={siteConfig.title}>
 		<meta property="og:url" content={canonicalUrl}>
 		<meta property="og:title" content={pageTitle}>
-		<meta property="og:description" content={description || pageTitle}>
+		<meta property="og:description" content={metaDescription}>
 		{absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
 		{setOGTypeArticle ? (
 			<meta property="og:type" content="article" />
@@ -140,7 +147,7 @@ const hasMonoFont =
 		<meta name="twitter:card" content={absoluteOgImage ? "summary_large_image" : "summary"}>
 		<meta property="twitter:url" content={canonicalUrl}>
 		<meta name="twitter:title" content={pageTitle}>
-		<meta name="twitter:description" content={description || pageTitle}>
+		<meta name="twitter:description" content={metaDescription}>
 		{absoluteOgImage && <meta name="twitter:image" content={absoluteOgImage} />}
 
 		<meta name="viewport" content="width=device-width" />
